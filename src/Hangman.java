@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.*;
 public class Hangman {
     private String[] wordList = new String[] {"cookie","music","breathe","plumber","pacifier","hero"};
     private int lives = 8;
@@ -27,7 +29,6 @@ public class Hangman {
                 System.out.print("Guess a letter: ");
                 guess = sc.nextLine();
             }
-            System.out.println(guess.length());
             //get first location of letter
             int location = word.indexOf(guess);
             if(location == -1){
@@ -46,6 +47,7 @@ public class Hangman {
             isGuessed = !Arrays.asList(userGuessed).contains("_");
         }
         if(lives == 0){
+            System.out.println("The word was " + word);
             System.out.println("Game over!");
         }else {
             System.out.println("You win!");
@@ -56,4 +58,15 @@ public class Hangman {
         int randomNr = (int) (Math.random() * arrayLength);
         return wordList[randomNr];
     }
+    private String[] getWordList(){
+        //get the words from the csv file
+        //copy words to array
+        String[] ari = new String[] {"snoop","dogg"};
+        return ari;
+    }
 }
+
+// oke voor morgen, de woordenlijst uit een tekst file halen.
+// een command toevoegen zodat gebruiker zelf woorden kan toevoegen aan de lijst.
+// als de gebruiker het woord heeft geraden, het woord uit de tekst file halen
+// uitvogelen hoe dat git commit hier werkt, want ik zie niks in me repository :S
