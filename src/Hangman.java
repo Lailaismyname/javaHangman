@@ -2,21 +2,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.*;
-import java.util.List;
 public class Hangman {
     private ArrayList<String> words = getWordList();
-    private int lives = 8;
     Scanner sc = new Scanner(System.in);
     public void playGame(){
         // set lives;
-        this.lives = 8;
+        int lives = 8;
         // set the word
         String word = getWord(words);
         int wordLength = word.length();
         String[] userGuessed = new String[wordLength];
-        for(int i=0; i < wordLength;i++){
-            userGuessed[i] = "_";
-        }
+        Arrays.fill(userGuessed, "_");
         // boolean to check if word is guessed or not
         boolean isGuessed = false;
         while(!isGuessed) {
@@ -36,8 +32,8 @@ public class Hangman {
             int location = word.indexOf(guess);
             if(location == -1){
                 //remove a life
-                this.lives--;
-                System.out.println("lives left: " + this.lives);
+                lives--;
+                System.out.println("lives left: " + lives);
             }
                 while(location != -1){
                     // save the letter at right location in the userGuessed array
@@ -88,7 +84,7 @@ public class Hangman {
             return wordsFromFile;
         } catch (IOException e){
             System.out.println("err: " + e);
-            ArrayList<String> err = new ArrayList<String>();
+            ArrayList<String> err = new ArrayList<>();
             err.add("err: " + e);
             return err;
         }
