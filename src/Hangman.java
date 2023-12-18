@@ -2,13 +2,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.*;
+import java.util.List;
 public class Hangman {
-    private String[] wordList = new String[] {"cookie","music","breathe","plumber","pacifier","hero"};
+    private ArrayList<String> words = getWordList();
     private int lives = 8;
     Scanner sc = new Scanner(System.in);
     public void playGame(){
+        // set lives;
+        this.lives = 8;
         // set the word
-        String word = getWord(wordList);
+        String word = getWord(words);
         int wordLength = word.length();
         String[] userGuessed = new String[wordLength];
         for(int i=0; i < wordLength;i++){
@@ -52,21 +55,42 @@ public class Hangman {
         }else {
             System.out.println("You win!");
         }
+        System.out.println("Do you want to continue? y/n");
+        String proceed = sc.nextLine().toLowerCase();
+        while(!proceed.equals("n") && !proceed.equals("y")){
+            proceed = sc.nextLine().toLowerCase();
+        }
+        if(proceed.equals("y")){
+            playGame();
+        }
     }
-    public String getWord(String[] wordList){
-        int arrayLength = wordList.length;
+    public String getWord(ArrayList<String> wordList){
+        int arrayLength = wordList.size();
         int randomNr = (int) (Math.random() * arrayLength);
-        return wordList[randomNr];
+        return wordList.get(randomNr);
     }
-    private String[] getWordList(){
+    private ArrayList<String> getWordList(){
         //get the words from the csv file
-        //copy words to array
-        String[] ari = new String[] {"snoop","dogg"};
-        return ari;
+        try{
+            // get the file
+            String file = "wordList.txt";
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            // copy words to array
+            ArrayList<String> wordsFromFile = new ArrayList<>();
+            // loop through
+            String line;
+            while((line = reader.readLine()) != null){
+                wordsFromFile.add(line);
+            }
+
+            //close reader
+            reader.close();
+            return wordsFromFile;
+        } catch (IOException e){
+            System.out.println("err: " + e);
+            ArrayList<String> err = new ArrayList<String>();
+            err.add("err: " + e);
+            return err;
+        }
     }
 }
-
-// oke voor morgen, de woordenlijst uit een tekst file halen.
-// een command toevoegen zodat gebruiker zelf woorden kan toevoegen aan de lijst.
-// als de gebruiker het woord heeft geraden, het woord uit de tekst file halen
-// uitvogelen hoe dat git commit hier werkt, want ik zie niks in me repository :S
